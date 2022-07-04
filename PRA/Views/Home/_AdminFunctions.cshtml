@@ -1,0 +1,23 @@
+﻿@using WebApplication1.Models
+@{
+    User user = (User)Session["user"];
+    string flag = ViewBag.added as string;
+}
+
+
+
+@if (flag != null)
+{
+    <div class="alert alert-info" role="alert">
+        @flag
+    </div>
+}
+
+@if (user != null && user.IsAdmin)
+{
+    <div class="d-flex align-content-center justify-content-center mw-100 py-3 mb-2" style="border-bottom: 1px solid #ccc;">
+        @Html.ActionLink("Add new Book", "New", "Book", null, new { @class = "btn btn-outline-info w-25 mx-3" })
+        @Html.ActionLink("Add author", "New", "Author", null, new { @class = "btn btn-outline-primary w-25 mx-3" })
+        @Html.ActionLink("View all loans", "Loans", "Admin", null, new { @class = "btn btn-success w-25 mx-3" })
+    </div>
+}  

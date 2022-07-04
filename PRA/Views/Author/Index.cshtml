@@ -1,0 +1,33 @@
+﻿@model WebApplication1.Models.Author
+@using WebApplication1.Models
+@{
+    ViewBag.Title = "Index";
+    IEnumerable<Book> books = ViewBag.books as IEnumerable<Book>;
+}
+
+<div class="m-5 p-3 w-50 m-auto d-flex align-items-center justify-content-around" style="border: 1px solid #ccc">
+    <div class="d-flex flex-column w-50">
+        <h3 class="text-center">@Model.FullName</h3>
+        <p>@Model.Description</p>
+    </div>
+    <img src="@Model.PicturePath" height="400" />
+</div>
+
+@if (books != null && books.Count() > 3)
+{
+    <div class="mt-5 p-3 w-75 m-auto d-flex flex-column h-auto" style="border: 1px solid #ccc">
+        <h4 class="text-center">Other books from @Model.FullName</h4>
+        <div class="d-flex justify-content-evenly" >
+            @foreach (Book book in books)
+            {
+                <div class="d-flex flex-column p-2 " style="width: 225px; border: 1px solid #ccc">
+                    <img src="@book.PicturePath" class="p-2" width="200" height="200" />
+                    @Html.ActionLink(book.Title,"Index","Book",new {title = book.Title},new {@class= "text-center text-wrap text-decoration-none text-black" })
+                </div>
+            }
+
+        </div>
+    </div>
+}
+
+

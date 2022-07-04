@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Purchase>
+@using WebApplication1.Models
+@{
+    ViewBag.Title = "Loans";
+    int i = 1;
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+
+            <td class="fw-bold">IDPurcase</td>
+            <td class="fw-bold">Title</td>
+            <td class="fw-bold">Author</td>
+            <td class="fw-bold">Purchase date</td>
+            <td class="fw-bold">Price</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Purchase purchase in Model)
+        {
+
+            <tr>
+                <td>@i</td>
+                <td>@purchase.Book.Title</td>
+                <td>@purchase.Book.Author.FullName</td>
+                <td>@purchase.PurchaseDate.ToString("dd.MM.yyyy")</td>
+                <td>@purchase.Book.Price kn</td>
+  
+            </tr>
+            i++;
+        }
+    </tbody>
+</table>

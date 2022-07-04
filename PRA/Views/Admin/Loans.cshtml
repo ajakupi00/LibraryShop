@@ -1,0 +1,51 @@
+﻿@using WebApplication1.Models
+@using RWA_Library.DAL
+@model IEnumerable<Loan>
+@{
+    BookManager bm = ViewBag.bm as BookManager;
+    ViewBag.Title = "Loans";
+    int i = 1;
+}
+
+@using (Html.BeginForm("RefreshLoans", "Admin"))
+{
+    <button class="btn btn-outline-success px-5 fw-bold fs-5 m-4 w-50" style="border-radius: 50px">Refresh loans</button>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td class="fw-bold">#</td>
+            <td class="fw-bold">LoanID</td>
+            <td class="fw-bold">Title</td>
+            <td class="fw-bold">Author</td>
+            <td class="fw-bold">State</td>
+            <td class="fw-bold">Date of return</td>
+            <td class="fw-bold">Loan cost</td>
+            <td class="fw-bold">Delay amount</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Loan loan in Model)
+        {
+            using (Html.BeginForm("Return", "Admin"))
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>@loan.IDLoan</td>
+                    <td>@loan.Book.Title</td>
+                    <td>@loan.Book.Author.FullName</td>
+                    <td>@loan.Book.Status.StatusName</td>
+                    <td>@loan.LoanEndDate.ToString("dd.MM.yyyy")</td>
+                    <td>@(Math.Abs(loan.LoanEndDate.Subtract(loan.LoanBeginDate).Days) * loan.DelayPrice)</td>
+                    <td>@loan.TotalDelayAmount kn</td>
+                    <td><button class="btn btn-outline-dark px-5 fw-bold" name="id" value="@loan.IDLoan" style="border-radius: 50px">Return</button> </td>
+                </tr>
+            }
+
+            i++;
+        }
+    </tbody>
+</table>
+

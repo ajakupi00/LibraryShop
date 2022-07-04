@@ -1,0 +1,102 @@
+﻿@model WebApplication1.Models.User
+@{
+    string passmsg = ViewBag.msg as string;
+    string loans = ViewBag.loans as string;
+    string idf = Model.IDUser.ToString(); 
+}
+<div style="height: 80vh" class="d-flex flex-column align-items-center justify-content-center ">
+    <h2>Information About Me</h2>
+    <div class="d-flex justify-content-between px-4 py-5 " style="width: 1200px; border-block: 1px solid #ccc">
+        @using (Html.BeginForm("Update", "Account", FormMethod.Post, new { @class = "d-flex flex-column w-50" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="d-flex flex-column">
+                <div>
+                    <label class="fw-bold">First name</label>
+                    @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control mw-100" })
+                </div>
+                <div>
+                    <label class="fw-bold">Last name</label>
+                    @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                </div>
+                <div>
+                    <label class="fw-bold">Address</label>
+                    @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div class="w-50">
+                        <label class="fw-bold">City</label>
+                        @Html.TextBoxFor(model => model.CityName, new { @class = "form-control" })
+                    </div>
+                    <div class="w-25">
+                        <label class="fw-bold">Zip code</label>
+                        @Html.TextBoxFor(model => model.ZipCode, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div>
+                    <label class="fw-bold">Date of birth</label>
+                    @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "form-control" })
+                </div>
+            </div>
+            <button type="submit" class="mt-4 align-self-end btn btn-outline-success">Save changes</button>
+
+
+        }
+
+
+        @using (Html.BeginForm("UpdatePassword", "Account", FormMethod.Post, new { @class = "d-flex flex-column w-25" }))
+        {
+            @Html.AntiForgeryToken()
+
+
+            <div class="d-flex flex-column" style="height: 300px">
+                <div>
+                    <h3>Change password</h3>
+                    <div class="mb-2">
+                        <label class="fw-bold">New Password</label>
+                        <input type="password" name="password" id="newPassword" class="form-control" />
+                    </div>
+                    <div class="mb-2">
+                        <label class="fw-bold">Repeat password</label>
+                        <input type="password" name="confirmPassword" id="rptPassword" class="form-control" />
+                    </div>
+                </div>
+
+                <button type="submit" class="mt-4 align-self-end btn btn-outline-dark">Change password</button>
+
+            </div>
+
+        }
+    </div>
+
+</div>
+
+@if (loans == "0")
+{
+    <button type="submit" class="mt-4 align-self-baseline btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Deactivate</button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Deactivate account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you wan't to deactive your account?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    @using (Html.BeginForm("DeleteAcc", "Account", new { id = Model.IDUser }, FormMethod.Post, null))
+                    {
+                        <button type="submit" class="btn btn-danger">Yes</button>
+
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

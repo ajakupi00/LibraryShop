@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Book>
+@using WebApplication1.Models
+@using RWA_Library.Models
+@{
+    ViewBag.Title = "Index";
+    User user = ViewBag.user as User;
+    string flag = ViewBag.added as string;
+    IList<SelectListItem> filter = new List<SelectListItem> {
+        new SelectListItem{ Text = "A - Z", Value = "az"},
+        new SelectListItem{ Text = "Z - A", Value = "za"},
+    };
+    IList<SelectListItem> price = new List<SelectListItem> {
+        new SelectListItem{ Text = "From Highest to Lowest", Value = READING_FILTER.MOST.ToString()},
+        new SelectListItem{ Text = "From Lowest to Highest", Value = READING_FILTER.LEAST.ToString()},
+    };
+}
+
+
+@Html.Partial("_AdminFunctions")
+@using (Html.BeginForm())
+{
+    <div class="d-flex align-content-center flex-column justify-content-center mw-100 py-3 mb-2" style="border-bottom: 1px solid #ccc;">
+        <div class="d-flex justify-content-center gap-4 mw-100">
+            <div class="d-flex align-content-center justify-content-center w-25">
+                <label class="form-label my-auto me-3 align-middle fs-5">Filter:</label>
+                @Html.DropDownList("filter", filter, new { @class = "form-select w-50" })
+            </div>
+            <div class="d-flex align-content-center justify-content-center w-25">
+                <label class="form-label my-auto me-3 align-middle fs-5">Sort by Demand:</label>
+                @Html.DropDownList("price", price, "-- Chose an option --" ,new { @class = "form-select w-50" })
+            </div>
+        </div>
+            <button class="btn btn-primary align-self-end">Apply Changes</button>
+    </div>
+}
+
+
+
+<div class="d-flex justify-content-center align-content-center m-auto">
+
+    <div class="d-flex flex-row flex-wrap align-items-center justify-content-center" style="width: 76%">
+        @foreach (Book book in Model)
+        {
+            <div class="card m-1 mx-auto my-auto" style="width: 325px; height:fit-content;">
+                <img height="325" src="@book.PicturePath" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-wrap">@book.Title</h5>
+                    @Html.ActionLink(book.Author.FullName, "Index", "Author", new { id = book.Author.IDAuthor }, new { @class = "card-text" })
+                    <p class="card-text text-end"> @book.Price kn</p>
+                    @if (user != null && user.IsAdmin)
+                    {
+                        @Html.ActionLink("View book", "Edit", "Book", new { title = book.Title }, new { @class = "btn btn-outline-primary mw-100" })
+
+                    }
+                    else
+                    {
+                        @Html.ActionLink("View book", "Index", "Book", new { title = book.Title }, new { @class = "btn btn-outline-primary mw-100" })
+
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (user != null && !user.IsAdmin)
+    {
+        if (user.Loans.Count > 0)
+        {
+            <div class="p-4" style="width: 13%">
+                <h5>Loans: </h5>
+                @{int i = 1; }
+                @foreach (Loan loan in user.Loans)
+                {
+                    <span class="fw-bold d-block mb-2">@i. @loan.Book.Title (<span class="text-danger">@loan.LoanEndDate.ToShortDateString()</span>)</span>
+                    i++;
+                }
+            </div>
+        }
+
+    }
+
+
+</div>
+

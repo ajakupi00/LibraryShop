@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "ConfirmEmail";
+    string msg = ViewBag.msg as string;
+}
+
+<h2>Confirm Email</h2>
+@if (msg == null)
+{
+    using (Html.BeginForm())
+    {
+        <button type="submit">Confirm Email</button>
+    }
+}
+else
+{
+    <h3>@msg</h3>
+}
+

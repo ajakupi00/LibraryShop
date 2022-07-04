@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Loan>
+@using WebApplication1.Models
+@{
+    ViewBag.Title = "Loans";
+    int i = 1;
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+   
+            <td class="fw-bold">LoanID</td>
+            <td class="fw-bold">Title</td>
+            <td class="fw-bold">Author</td>
+            <td class="fw-bold">Loan begin date</td>
+            <td class="fw-bold">Date of return</td>
+            <td class="fw-bold">Delay amount</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Loan loan in Model)
+        {
+
+            <tr>
+                <td>@i</td>
+                <td>@loan.Book.Title</td>
+                <td>@loan.Book.Author.FullName</td>
+                <td>@loan.LoanBeginDate.ToString("dd.MM.yyyy")</td>
+                <td>@loan.LoanEndDate.ToString("dd.MM.yyyy")</td>
+                <td>@loan.DelayPrice kn</td>
+            </tr>
+            i++;
+        }
+    </tbody>
+</table>

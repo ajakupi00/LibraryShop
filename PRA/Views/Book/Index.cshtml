@@ -1,0 +1,50 @@
+﻿@model WebApplication1.Models.Book
+
+@{
+    ViewBag.Title = Model.Title;
+    string msg = ViewBag.msg as string;
+}
+@if (!string.IsNullOrEmpty(msg))
+{
+    <div class="alert alert-danger" role="alert">
+        @msg
+    </div>
+}
+
+
+<div class="container d-flex">
+    <div class="w-25 d-flex flex-column">
+        <img src="@Model.PicturePath" width="200" />
+        <span>@Model.Author.FullName</span>
+        <div class="d-flex justify-content-between">
+            <span class="fw-bold">@Model.Title</span>
+            <div class="d-flex flex-column">
+                <span>@Model.Price kn</span>
+                <span>Dostupno: @Model.Quantity</span>
+            </div>
+        </div>
+        <span>ISBN: @Model.ISBN</span>
+    </div>
+    <div class="container w-75 d-flex flex-column mh-100 mt-5">
+        <p>@Model.Description</p>
+        @if (Model.Quantity > 0)
+        {
+            <div class="d-flex justify-content-end mt-5 mw-100">
+                @using (Html.BeginForm("Purchase", "Book", FormMethod.Get, new { @class = "w-25 mx-2" }))
+                {
+                    <button class="btn btn-success w-100 " name="title" value="@Model.Title">Purchase</button>
+                }
+                @using (Html.BeginForm("Loan", "Book", FormMethod.Get, new { @class = "w-25 mx-2" }))
+                {
+                    <button class="btn btn-info w-100" name="title" value="@Model.Title">Loan</button>
+
+                }
+            </div>
+        }
+        else
+        {
+            <span class="fs-2 text-danger">Knjiga nažalost nije dostupna...</span>
+        }
+
+    </div>
+</div>
